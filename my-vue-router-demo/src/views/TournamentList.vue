@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>大会一覧</h1>
+    <h3>大会一覧</h3>
+    <p>大会一覧はこちら</p>
   </div>
 </template>
 

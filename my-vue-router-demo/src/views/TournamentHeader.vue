@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h3>大会レベル</h3>
-    <p>大会レベルはこちら</p>
+    <h3>Tornament header</h3>
+    <hr>
   </div>
 </template>
 
