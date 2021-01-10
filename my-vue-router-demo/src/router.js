@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import Tournament from './views/Tournament.vue';
-import TournamentHeader from './views/TournamentHeader.vue';
-import TournamentList from './views/TournamentList.vue';
-import TournamentLevel from './views/TournamentLevel.vue';
-import Categories from './views/Categories.vue';
+const Home = () => import('./views/Home.vue');
+const Tournament = () => import('./views/Tournament.vue');
+const TournamentHeader = () => import('./views/TournamentHeader.vue');
+const TournamentList = () => import('./views/TournamentList.vue');
+const TournamentLevel = () => import('./views/TournamentLevel.vue');
+const Categories = () => import('./views/Categories.vue');
 
 Vue.use(Router)
 
@@ -21,7 +21,7 @@ export default new Router({
       component: Tournament,
       children: [
         {
-          path: 'level/:levelNumber',
+          path: 'level/:level',
           components: {
             default: TournamentLevel,
             header: TournamentHeader,
@@ -29,10 +29,11 @@ export default new Router({
           props: {
             default: true,
             header: false
-          }
+          },
+          name: 'level-number-route'
         },
         {
-          path: 'list/:listNumber',
+          path: 'list/:list',
           components: {
             default: TournamentList,
             header: TournamentHeader,
@@ -49,7 +50,27 @@ export default new Router({
       path: '/categories/:category',
       component: Categories,
       props: true,
-      name: 'categories-root',
+      name: 'categories-route',
     },
-  ]
+    {
+      path: '*',
+      redirect: '/'
+    },
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise(resolve => {
+      this.app.$root.$once('triggerScroll', () => {
+        let position = {x: 0, y: 100};
+        if(savedPosition) {
+          position = savedPosition;
+        }
+        if(to.hash) {
+          position = {
+            selector: to.hash
+          }
+        }
+        return resolve(position);
+      });
+    });
+  }
 })

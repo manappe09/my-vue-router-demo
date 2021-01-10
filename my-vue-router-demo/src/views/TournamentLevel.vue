@@ -7,6 +7,11 @@
 
 <script>
 export default {
-  
+  created() {
+    console.log('created');
+  },
+  destoyed() {
+    console.log('destoyed');
+  },
 }
 </script>

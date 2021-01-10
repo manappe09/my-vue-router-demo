@@ -10,23 +10,24 @@
         >ホーム</router-link
       >
       <router-link
-        to="/tournament/list/1"
+        to="/tournament/level/1"
         class="p-router_link"
         active-class="router_link--active"
         >大会一覧</router-link
       >
+      <!-- 動的に変更できないのわからん -->
       <router-link
         :to="{
-          name: 'categories-root',
-          params: { category: 'beginner' },
-          query: { hoge: 1, type: 'test' },
+          name: 'categories-route',
+          params: { category: 1 },
+          hash: '#category-target',
         }"
         class="p-router_link"
         active-class="router_link--active"
         >カテゴリ一覧</router-link
       >
     </nav>
-    <transition name="fade" mode="out-in">
+    <transition name="fade" mode="out-in" @before-enter="beforeEnter">
       <router-view></router-view>
     </transition>
   </div>
@@ -34,7 +35,15 @@
 
 <script>
 export default {
-  props: ["category"],
+  props: ['category'],
+  methods: {
+    showLog() {
+      console.log(this.$route.params);
+    },
+    beforeEnter() {
+      this.$root.$emit('triggerScroll');
+    }
+  }
 };
 </script>
 
@@ -43,10 +52,12 @@ export default {
   font-size: 1.1rem;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .1s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
 }
 </style>
